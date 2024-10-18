@@ -21,11 +21,10 @@ def main():
     for output in outputs:
         generated_texts = [one.text for one in output.outputs]
         results.append(generated_texts)
-        print(generated_texts)
     ds = ds.add_column(name="prediction", column=results)
     out_name = args.dataset_name.split("/")[-1]
-    out_name = f"{out_name}_predictions.json"
-    ds.to_json(out_name)
+    out_name = f"wentingzhao/{out_name}_predictions_{args.n}"
+    ds.push_to_hub(out_name)
 
 if __name__ == '__main__':
     main()
