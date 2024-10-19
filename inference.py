@@ -15,7 +15,11 @@ def main():
     ds = load_dataset(args.dataset_name, split=args.dataset_split)
     sampling_params = SamplingParams(n=args.n, temperature=args.temperature, max_tokens=512)
     llm = LLM(model=args.model_name)
-    outputs = llm.generate(ds["prompt"], sampling_params)
+    prompts = []
+    for prompt in ds["prompt"]:
+        prompt = "Write a solution to the following problem and make sure that it passes the tests:\n" + prompt
+        prompts.append(prompt)
+    outputs = llm.generate(prompts, sampling_params)
 
     results = []
     for output in outputs:
